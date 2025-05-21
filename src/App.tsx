@@ -7,6 +7,7 @@ type Project = {
 
 function App() {
     const [data, setData] = useState<Project[]>([]);
+    const [name, setName] = useState();
 
     const getProjects = async () => {
         try {
@@ -17,6 +18,17 @@ function App() {
             console.error(error);
         }
     };
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        const project = { name };
+
+
+        fetch('http://127.0.0.1:8000/projects/', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify( project )
+    })};
 
     useEffect(() => {
         getProjects();
@@ -29,7 +41,14 @@ function App() {
             <ul>
             { data.map((project) => (<li> {project.name} </li>)) }
             </ul>
-            <button>Add Project</button>
+            <form onSubmit={handleClick}><label></label>
+            <input
+            type="text"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)} />
+            <button>Add</button>
+            </form>
             </div>
     )
 }
