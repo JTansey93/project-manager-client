@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import './App.css'
+import DeleteButton from './components/DeleteButton';
 
 type Project = {
+    pk: number;
     name: string;
 };
 
@@ -11,6 +13,7 @@ function App() {
 
     const getProjects = async () => {
         try {
+            /* The URL is temporar for development purposes, see the project-manager-api project for api code */
             const response = await fetch('http://127.0.0.1:8000/projects/');
             const json = await response.json();
             setData(json);
@@ -39,7 +42,7 @@ function App() {
     return (
         <div>My project's are:
             <ul>
-            { data.map((project) => (<li> {project.name} </li>)) }
+            { data.map((project) => (<li key={project.pk}> Name: {project.name} <DeleteButton id={project.pk} /> </li>)) }
             </ul>
             <form onSubmit={handleClick}><label></label>
             <input
